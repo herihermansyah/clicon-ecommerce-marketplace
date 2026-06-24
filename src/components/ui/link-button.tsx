@@ -8,7 +8,7 @@ const linkButtonVariants = cva(
   "flex items-center gap-2 text-[14px] font-medium w-fit leading-5 transition-transform duration-500 ease-in-out pb-1 border-b-2 border-b-transparent",
   {
     variants: {
-      color: {
+      variant: {
         gray: "hover:border-b-gray-900 text-gray-900 hover:border-b-2",
         primary:
           "hover:border-b-primary-600 text-primary-500 hover:text-primary-600 hover:border-b-2",
@@ -23,7 +23,7 @@ const linkButtonVariants = cva(
       },
     },
     defaultVariants: {
-      color: "gray",
+      variant: "gray",
     },
   },
 );
@@ -34,13 +34,13 @@ type LinkButtonProps = React.AnchorHTMLAttributes<HTMLAnchorElement> &
   };
 
 const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
-  ({children, className, href, color, ...props}, ref) => {
+  ({children, className, href, variant, ...props}, ref) => {
     return (
       <Link
         ref={ref}
         href={href}
         {...props}
-        className={cn(linkButtonVariants({color, className}), "")}
+        className={cn(linkButtonVariants({variant, className}), "")}
       >
         <span>{children}</span>
         <span>
