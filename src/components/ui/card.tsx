@@ -17,8 +17,8 @@ const Card = forwardRef<HTMLDivElement, CardType>(
           "w-full rounded-[3px] p-4",
           "border border-gray-100 bg-gray-00",
           "flex flex-col gap-6",
-          "group hover:shadow-dropdown",
-          "relative",
+          "hover:shadow-dropdown",
+          "transition-shadow duration-300 ease-in-out",
           className,
         )}
         {...props}
@@ -36,7 +36,7 @@ Card.displayName = "Card";
 const CardContent = forwardRef<HTMLDivElement, CardType>(
   ({className, children, ...props}, ref) => {
     return (
-      <div ref={ref} className={cn("w-full h-full", className)} {...props}>
+      <div ref={ref} className={cn("w-full h-full ", className)} {...props}>
         {children}
       </div>
     );
