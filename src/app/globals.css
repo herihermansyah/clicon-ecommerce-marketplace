@@ -70,4 +70,8 @@
   --color-danger-50: #fdeeee;
   /* custom shadow */
   --shadow-dropdown: 0 8px 40px 0 rgba(0, 0, 0, 0.12);
+
+  /* custom size */
+  --container-main: 1320px;
+  --container-wide: 1438px;
 }
