@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import {Public_Sans} from "next/font/google";
 import "./globals.css";
+import Layouts from "@/layouts/layouts";
 
 const publicSans = Public_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -19,7 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${publicSans.className} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <Layouts>{children}</Layouts>
+      </body>
     </html>
   );
 }
