@@ -1,6 +1,6 @@
 import {cn} from "@/lib/utils";
 import {cva, VariantProps} from "class-variance-authority";
-import React, {ElementType, forwardRef} from "react";
+import React, {forwardRef} from "react";
 
 const TypographyVariants = cva("text-gray-900", {
   variants: {
