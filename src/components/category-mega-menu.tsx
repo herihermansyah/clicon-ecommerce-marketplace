@@ -6,8 +6,7 @@ import {MdOutlineKeyboardArrowRight} from "react-icons/md";
 import Typography from "./ui/typography";
 import ProductCard from "./product-card";
 import {ProductTypes} from "@/@types/product-types";
-import { Categories } from "@/@types/categories-type";
-
+import {Categories} from "@/@types/categories-type";
 
 const categoryData: Categories[] = [
   {
@@ -60,7 +59,7 @@ const productMockData = Array.from({length: 3}).map(
       title: "Essence Mascara Lash Princess",
       description:
         "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
-      category: "beauty",
+      category: "smartphones",
       price: 9.99,
       discountPercentage: 10.48,
       rating: 2.56,
@@ -117,8 +116,14 @@ const CategoryMegaMenu = () => {
   };
 
   const filteredProducts = productMockData.filter((product) => {
+    // product category
+    const isMatchingCategory =
+      product.category.toLowerCase() ===
+      selectedCategory?.category.toLowerCase();
+    if (!isMatchingCategory) return false;
+    // product brand
     if (!selectedBrand) return true;
-    return product.brand?.toLowerCase() === selectedBrand.toLowerCase();
+    return product.brand?.toLowerCase() === selectedBrand?.toLowerCase();
   });
   return (
     <div className="relative">
@@ -269,7 +274,7 @@ const ProductBrandList = ({
 }: ProductBrandList) => {
   return (
     <div className="flex flex-col gap-3">
-      <Typography variant={"m"} weight={600}>
+      <Typography variant={"m"} weight={600} className="whitespace-nowrap">
         FEATURED {selectedCategory.name.toUpperCase()}
       </Typography>
       <div className="flex flex-col gap-3">
@@ -278,9 +283,12 @@ const ProductBrandList = ({
             <ProductCard variant={"secondary"} key={item.id} product={item} />
           ))
         ) : (
-          <p className="text-xs text-gray-400 italic px-2">
+          <Typography
+            variant={"xs"}
+            className="text-gray-400 italic flex items-center justify-center whitespace-nowrap"
+          >
             No products found for this brand.
-          </p>
+          </Typography>
         )}
       </div>
     </div>
