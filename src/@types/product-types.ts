@@ -7,7 +7,7 @@ export interface Dimensions {
 export interface Review {
   rating: number;
   comment: string;
-  date: string; // Bisa menggunakan string untuk format ISO Date
+  date: string; 
   reviewerName: string;
   reviewerEmail: string;
 }
@@ -19,7 +19,7 @@ export interface ProductMeta {
   qrCode: string;
 }
 
-export interface Product {
+export interface ProductTypes {
   id: number;
   title: string;
   description: string;
@@ -29,13 +29,13 @@ export interface Product {
   rating: number;
   stock: number;
   tags: string[];
-  brand?: string; // Dibuat opsional (?) karena beberapa produk anonim biasanya tidak punya brand
+  brand?: string; 
   sku: string;
   weight: number;
   dimensions: Dimensions;
   warrantyInformation: string;
   shippingInformation: string;
-  availabilityStatus: "In Stock" | "Low Stock" | "Out of Stock" | string; // Menggunakan literal type agar lebih aman
+  availabilityStatus: "In Stock" | "Low Stock" | "Out of Stock" | string; 
   reviews: Review[];
   returnPolicy: string;
   minimumOrderQuantity: number;
@@ -44,9 +44,8 @@ export interface Product {
   thumbnail: string;
 }
 
-// Interface untuk wrapper response API jika kamu membutuhkannya
 export interface ProductResponse {
-  products: Product[];
+  products: ProductTypes[];
   total: number;
   skip: number;
   limit: number;
