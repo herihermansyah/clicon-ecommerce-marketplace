@@ -6,19 +6,8 @@ import {MdOutlineKeyboardArrowRight} from "react-icons/md";
 import Typography from "./ui/typography";
 import ProductCard from "./product-card";
 import {ProductTypes} from "@/@types/product-types";
+import { Categories } from "@/@types/categories-type";
 
-type Brands = {
-  brand: string;
-  name: string;
-  url?: string;
-};
-
-type Categories = {
-  category: string;
-  name: string;
-  image?: string;
-  subCategories: Brands[];
-};
 
 const categoryData: Categories[] = [
   {
