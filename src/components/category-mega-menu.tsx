@@ -20,7 +20,7 @@ type Categories = {
   subCategories: Brands[];
 };
 
-const CategoryData: Categories[] = [
+const categoryData: Categories[] = [
   {
     category: "laptops",
     name: "Laptops",
@@ -28,20 +28,15 @@ const CategoryData: Categories[] = [
       {name: "Dell", brand: "dell"},
       {name: "Asus", brand: "asus"},
       {name: "Hp", brand: "hp"},
-      {name: "Axion", brand: "axion"},
+      {name: "Axio", brand: "axio"},
     ],
   },
   {
     category: "mobile-accessories",
     name: "Mobile Accessories",
     subCategories: [
-      {name: "Apple", brand: "apple"},
-      {name: "Xiaomi", brand: "xiaomi"},
-      {name: "Huawei", brand: "huawei"},
-      {name: "Oppo", brand: "oppo"},
-      {name: "Techno", brand: "techno"},
-      {name: "Samsung", brand: "samsung"},
-      {name: "Sony", brand: "sony"},
+      {name: "Ugreen", brand: "ugreen"},
+      {name: "Uneed", brand: "uneed"},
     ],
   },
   {
@@ -61,25 +56,12 @@ const CategoryData: Categories[] = [
     category: "tablets",
     name: "Tablets",
     subCategories: [
-      {name: "Apple", brand: "apple"},
       {name: "Xiaomi", brand: "xiaomi"},
       {name: "Huawei", brand: "huawei"},
       {name: "Oppo", brand: "oppo"},
-      {name: "Techno", brand: "techno"},
       {name: "Samsung", brand: "samsung"},
-      {name: "Sony", brand: "sony"},
     ],
   },
-];
-
-const brandData: Brands[] = [
-  {name: "Apple", brand: "apple"},
-  {name: "Xiaomi", brand: "xiaomi"},
-  {name: "Huawei", brand: "huawei"},
-  {name: "Oppo", brand: "oppo"},
-  {name: "Techno", brand: "techno"},
-  {name: "Samsung", brand: "samsung"},
-  {name: "Sony", brand: "sony"},
 ];
 
 const productMockData = Array.from({length: 3}).map(
@@ -119,19 +101,40 @@ const productMockData = Array.from({length: 3}).map(
           reviewerEmail: "eleanor.collins@x.dummyjson.com",
         },
       ],
-      brand: "Essence",
+      brand: "apple",
       availabilityStatus: "In Stock",
     }) as ProductTypes,
 );
+
+// ======================== Category Mega Menu ========================
 
 const CategoryMegaMenu = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [selectedCategory, setSelectedCategory] =
     React.useState<Categories | null>(null);
+  const [selectedBrand, setSelectedBrand] = React.useState<string | null>(null);
+
+  const toggleMenu = () => {
+    if (isOpen) {
+      setSelectedCategory(null);
+      setSelectedBrand(null);
+    }
+    setIsOpen(!isOpen);
+  };
+
+  const handleSelecCategory = (category: Categories) => {
+    setSelectedCategory(category);
+    setSelectedBrand(null);
+  };
+
+  const filteredProducts = productMockData.filter((product) => {
+    if (!selectedBrand) return true;
+    return product.brand?.toLowerCase() === selectedBrand.toLowerCase();
+  });
   return (
     <div className="relative">
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggleMenu}
         className={cn(
           "flex items-center gap-2 bg-gray-50 px-6 py-3.5 cursor-pointer rounded-xs",
           "font-medium text-[14px] leading-5 text-gray-900",
@@ -148,64 +151,148 @@ const CategoryMegaMenu = () => {
           <MdOutlineKeyboardArrowDown size={20} />
         </span>
       </button>
-      {/* category dropdown */}
-      <div
-        className={cn(
-          "w-60 border bg-gray-00 border-gray-100 rounded-[3px] shadow-dropdown py-3",
-          "absolute top-15",
-        )}
-      >
-        {CategoryData.map((item) => {
-          const isSelected = selectedCategory?.category === item.category;
+
+      {/* main category dropdown */}
+      {isOpen && (
+        <MainCategory
+          categories={categoryData}
+          selectedCategory={selectedCategory}
+          onSelectedCategory={handleSelecCategory}
+        />
+      )}
+
+      {/* sub brand category dropdown */}
+      {isOpen && selectedCategory && (
+        <SubBrandCategory
+          selectedCategory={selectedCategory}
+          selectedBrand={selectedBrand}
+          onSelectedBrand={setSelectedBrand}
+          filterProduct={filteredProducts}
+        />
+      )}
+    </div>
+  );
+};
+
+// ======================== Main Category ========================
+interface MainCategoryProps {
+  categories: Categories[];
+  selectedCategory: Categories | null;
+  onSelectedCategory: (Category: Categories) => void;
+}
+const MainCategory = ({
+  categories,
+  selectedCategory,
+  onSelectedCategory,
+}: MainCategoryProps) => {
+  return (
+    <div
+      className={cn(
+        "w-60 border bg-gray-00 border-gray-100 rounded-[3px] shadow-dropdown py-3",
+        "absolute top-15",
+      )}
+    >
+      {categories.map((category) => {
+        const isSelected = selectedCategory?.category === category.category;
+        return (
+          <button
+            onMouseEnter={() => {
+              onSelectedCategory(category);
+            }}
+            onClick={() => {
+              onSelectedCategory(category);
+            }}
+            key={category.category}
+            className={cn(
+              "flex items-center justify-between h-9 cursor-pointer w-full px-3 rounded-[3px]",
+              "text-[14px] leading-5 text-gray-600",
+              isSelected && "bg-gray-50 text-gray-900",
+            )}
+          >
+            <span>{category.name}</span>
+            {isSelected && <MdOutlineKeyboardArrowRight size={20} />}
+          </button>
+        );
+      })}
+    </div>
+  );
+};
+
+// ======================== Sub Brand Category ========================
+interface SubBrandCategoryProps {
+  selectedCategory: Categories;
+  selectedBrand: string | null;
+  onSelectedBrand: (brand: string) => void;
+  filterProduct: ProductTypes[];
+}
+const SubBrandCategory = ({
+  selectedBrand,
+  selectedCategory,
+  onSelectedBrand,
+  filterProduct,
+}: SubBrandCategoryProps) => {
+  return (
+    <div
+      className={cn(
+        "p-5 border bg-gray-00 border-gray-100 rounded-[3px] shadow-dropdown",
+        "absolute top-15 left-62.75",
+        "flex gap-5",
+      )}
+    >
+      {/* brand name */}
+      <div className={cn("w-41", "flex flex-col items-start")}>
+        {selectedCategory.subCategories.map((item) => {
+          const isSelectedBrand = selectedBrand === item.brand;
           return (
             <button
-              onClick={() => setSelectedCategory(item)}
-              key={item.category}
-              className={cn(
-                "flex items-center justify-between h-9 cursor-pointer w-full px-3 rounded-[3px]",
-                "text-[14px] leading-5 text-gray-600",
-                isSelected && "bg-gray-50 text-gray-900",
-              )}
-            >
-              <span>{item.name}</span>
-              {isSelected && <MdOutlineKeyboardArrowRight size={20} />}
-            </button>
-          );
-        })}
-      </div>
-      {/* sub brand category dropdown */}
-      <div
-        className={cn(
-          "p-5 border bg-gray-00 border-gray-100 rounded-[3px] shadow-dropdown",
-          "absolute top-15 left-62.75",
-          "flex gap-5",
-        )}
-      >
-        {/* brand name */}
-        <div className={cn("w-41", "flex flex-col items-start")}>
-          {brandData.map((item) => (
-            <button
+              onClick={() => onSelectedBrand(item.brand)}
+              onMouseEnter={() => onSelectedBrand(item.brand)}
               key={item.brand}
               className={cn(
                 "cursor-pointer",
                 "text-[14px] leading-5 text-gray-600 h-9",
-                "hover:bg-amber-100 w-full flex items-center px-3 ",
+                "w-full flex items-center px-3 ",
+                isSelectedBrand && "bg-gray-50 text-gray-900",
               )}
             >
               {item.name}
             </button>
-          ))}
-        </div>
-        <div className="flex flex-col gap-3">
-          <Typography variant={"m"} weight={600}>
-            FEATURED PHONE
-          </Typography>
-          <div className="flex flex-col gap-3">
-            {productMockData.map((item) => (
-              <ProductCard variant={"secondary"} key={item.id} product={item} />
-            ))}
-          </div>
-        </div>
+          );
+        })}
+      </div>
+      {/* product brand list  */}
+      <ProductBrandList
+        selectedCategory={selectedCategory}
+        filterProduct={filterProduct}
+      />
+    </div>
+  );
+};
+
+// ======================== Product Brand List ========================
+interface ProductBrandList {
+  selectedCategory: Categories;
+  filterProduct: ProductTypes[];
+}
+const ProductBrandList = ({
+  selectedCategory,
+  filterProduct,
+}: ProductBrandList) => {
+  return (
+    <div className="flex flex-col gap-3">
+      <Typography variant={"m"} weight={600}>
+        FEATURED {selectedCategory.name.toUpperCase()}
+      </Typography>
+      <div className="flex flex-col gap-3">
+        {filterProduct.length > 0 ? (
+          filterProduct.map((item) => (
+            <ProductCard variant={"secondary"} key={item.id} product={item} />
+          ))
+        ) : (
+          <p className="text-xs text-gray-400 italic px-2">
+            No products found for this brand.
+          </p>
+        )}
       </div>
     </div>
   );
