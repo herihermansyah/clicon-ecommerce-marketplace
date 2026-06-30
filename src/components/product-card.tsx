@@ -8,22 +8,50 @@ import {LuShoppingCart} from "react-icons/lu";
 import {IoEyeOutline} from "react-icons/io5";
 import IconButton from "./ui/icon-button";
 import Badge from "./ui/badge";
-import {Product} from "@/@types/product-types";
+import {ProductTypes} from "@/@types/product-types";
+import {cva, VariantProps} from "class-variance-authority";
+import {cn} from "@/lib/utils";
+import Typography from "./ui/typography";
 
-interface ProductCardProps {
-  product: Product;
+const productVariants = cva("", {
+  variants: {
+    variant: {
+      primary: "flex-col p-4",
+      secondary: "flex-row p-3 w-[312px] items-center",
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+  },
+});
+
+interface ProductCardProps extends VariantProps<typeof productVariants> {
+  product: ProductTypes;
 }
 
-const ProductCard = ({product}: ProductCardProps) => {
+const ProductCard = ({product, variant}: ProductCardProps) => {
   // discount price
   const fixedPrice = (
     product.price *
     (1 - product.discountPercentage / 100)
   ).toFixed(2);
+
+  // conditional variants
+  const isPrimary = variant === "primary" || !variant;
   return (
-    <Card key={product.id}>
-      <CardContent className="relative cursor-pointer group">
-        <div className="h-43 w-full overflow-hidden group-hover:bg-black/20 transition-all duration-500 ease-in-out">
+    <Card key={product.id} className={cn(productVariants({variant}))}>
+      <CardContent
+        className={cn(
+          "relative cursor-pointer group",
+          isPrimary ? "" : "w-auto",
+        )}
+      >
+        <div
+          className={cn(
+            "relative overflow-hidden group-hover:bg-black/20 transition-all duration-500 ease-in-out",
+            isPrimary ? "h-43 w-full" : "h-20 w-20",
+          )}
+        >
           <Image
             src={product.thumbnail}
             alt={product.title}
@@ -33,63 +61,74 @@ const ProductCard = ({product}: ProductCardProps) => {
           />
         </div>
         {/* button action */}
-        <div className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 group-hover:flex items-center gap-2">
-          <IconButton
-            shape={"circle"}
-            variant={"filled"}
-            className="bg-gray-00 hover:bg-primary-500 text-gray-900 hover:text-gray-00"
-          >
-            <GrFavorite size={24} />
-          </IconButton>
-          <IconButton
-            shape={"circle"}
-            variant={"filled"}
-            className="bg-gray-00 hover:bg-primary-500 text-gray-900 hover:text-gray-00"
-          >
-            <LuShoppingCart size={24} />
-          </IconButton>
-          <IconButton
-            shape={"circle"}
-            variant={"filled"}
-            className="bg-gray-00 hover:bg-primary-500 text-gray-900 hover:text-gray-00"
-          >
-            <IoEyeOutline size={24} />
-          </IconButton>
-        </div>
+        {isPrimary && (
+          <div className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 group-hover:flex items-center gap-2">
+            <IconButton
+              shape={"circle"}
+              variant={"filled"}
+              className="bg-gray-00 hover:bg-primary-500 text-gray-900 hover:text-gray-00"
+            >
+              <GrFavorite size={24} />
+            </IconButton>
+            <IconButton
+              shape={"circle"}
+              variant={"filled"}
+              className="bg-gray-00 hover:bg-primary-500 text-gray-900 hover:text-gray-00"
+            >
+              <LuShoppingCart size={24} />
+            </IconButton>
+            <IconButton
+              shape={"circle"}
+              variant={"filled"}
+              className="bg-gray-00 hover:bg-primary-500 text-gray-900 hover:text-gray-00"
+            >
+              <IoEyeOutline size={24} />
+            </IconButton>
+          </div>
+        )}
+
         {/* badge */}
-        <Badge className="absolute -left-1 -top-1" variant={"warning"}>
-          {product.availabilityStatus}
-        </Badge>
+        {isPrimary && (
+          <Badge className="absolute -left-1 -top-1" variant={"warning"}>
+            {product.availabilityStatus}
+          </Badge>
+        )}
       </CardContent>
       <CardFooter>
         {/* rating */}
-        <div className="flex items-center gap-1">
-          <div className="flex items-center">
-            {Array.from({length: 5}).map((_, i) =>
-              i < Math.round(product.rating) ? (
-                <FaStar key={i} className="text-[14px] text-primary-500" />
-              ) : (
-                <FaRegStar key={i} className="text-[14px] text-gray-500" />
-              ),
-            )}
+        {isPrimary && (
+          <div className="flex items-center gap-1">
+            <div className="flex items-center">
+              {Array.from({length: 5}).map((_, i) =>
+                i < Math.round(product.rating) ? (
+                  <FaStar key={i} className="text-[14px] text-primary-500" />
+                ) : (
+                  <FaRegStar key={i} className="text-[14px] text-gray-500" />
+                ),
+              )}
+            </div>
+            <div className="text-gray-500 text-[12px] leading-4">
+              ({product.reviews.length})
+            </div>
           </div>
-          <div className="text-gray-500 text-[12px] leading-4">
-            ({product.reviews.length})
-          </div>
-        </div>
+        )}
         {/* title */}
-        <h2 className="text-[14px] text-gray-900 leading-5">{product.title}</h2>
+        <Typography variant={"s"}>{product.title}</Typography>
         {/* price */}
         <div className="flex items-center gap-1">
-          <h5 className="text-[14px] text-gray-400 leading-5 font-semibold line-through">
+          <Typography
+            variant={"s"}
+            weight={600}
+            className="text-gray-400 line-through"
+          >
             {product.price.toLocaleString("en-US", {
               style: "currency",
               currency: "USD",
             })}
-          </h5>
-          <h5 className="text-[14px] text-secondary-500 leading-5 font-semibold">
+          </Typography>
+          <Typography variant={"s"} weight={600} className="text-secondary-500">
             {fixedPrice}
-          </h5>
+          </Typography>
         </div>
       </CardFooter>
     </Card>
