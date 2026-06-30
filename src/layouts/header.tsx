@@ -1,5 +1,6 @@
 import CategoryMegaMenu from "@/components/category-mega-menu";
 import CurrencySelect from "@/components/currency-select";
+import HeaderMenu from "@/components/header-menu";
 import LanguageSelect from "@/components/language-select";
 import Logo from "@/components/logo";
 import SearchBar from "@/components/search-bar";
@@ -7,7 +8,7 @@ import SocialMedia from "@/components/social-media";
 import Typography from "@/components/ui/typography";
 import {UserControlCompunded} from "@/components/user-control";
 import WrapperMain from "@/components/wrapper-main";
-import React from "react";
+import {PiPhoneCallLight} from "react-icons/pi";
 
 const Header = () => {
   return (
@@ -37,12 +38,19 @@ const Header = () => {
         </WrapperMain>
       </div>
       {/* menu all categories and sub categories */}
-      <div>
-        <div>
-          <WrapperMain className="py-4">
+      <div className="border-b border-gray-100 bg-gray-00">
+        <WrapperMain className="py-4 flex items-center justify-between">
+          <div className="flex items-center gap-6">
             <CategoryMegaMenu />
-          </WrapperMain>
-        </div>
+            <HeaderMenu />
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[28px] text-gray-900">
+              <PiPhoneCallLight />
+            </span>
+            <Typography variant={"l"}>+1-202-555-0104</Typography>
+          </div>
+        </WrapperMain>
       </div>
     </div>
   );
