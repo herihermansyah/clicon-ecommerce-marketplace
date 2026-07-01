@@ -4,7 +4,7 @@ import Typography from "./ui/typography";
 
 const ContactDetails = () => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 w-78">
       <Image src={"/logo-primary.svg"} alt="logo" width={177} height={148} />
       <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-1">
