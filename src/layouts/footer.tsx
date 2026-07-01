@@ -30,9 +30,9 @@ const Footer = () => {
   const fullYear = new Date().getFullYear();
   return (
     <div>
-      <NewsLetter />
+      <NewsLetter className="hidden lg:flex" />
       <div className="bg-gray-900 py-18 border-b border-gray-800">
-        <WrapperMain className="flex items-start gap-6 justify-between">
+        <WrapperMain className="flex items-start gap-6 justify-between flex-wrap">
           <ContactDetails />
           <div>
             <FooterMenu
@@ -56,7 +56,7 @@ const Footer = () => {
         </WrapperMain>
       </div>
       <div className="flex items-center justify-center bg-gray-900">
-        <Typography variant={"s"} className="text-gray-300 py-6">
+        <Typography variant={"s"} className="text-gray-300 py-6 text-center">
           Kinbo - eCommerce Template &copy; {fullYear}. Design by Templatecookie
         </Typography>
       </div>

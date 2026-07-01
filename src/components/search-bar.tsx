@@ -1,14 +1,19 @@
 import React from "react";
 import {Input} from "./ui/input";
 import {FiSearch} from "react-icons/fi";
+import {cn} from "@/lib/utils";
 
-const SearchBar = () => {
+interface SearchBarProps {
+  className?: string;
+}
+
+const SearchBar = ({className}: SearchBarProps) => {
   return (
-    <div>
+    <div className={cn(className)}>
       <Input
         iconRight={<FiSearch size={20} />}
         placeholder="Search for anything..."
-        className="w-161.5"
+        className="lg:w-161.5"
       />
     </div>
   );

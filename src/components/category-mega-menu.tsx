@@ -184,6 +184,7 @@ const MainCategory = ({
       className={cn(
         "w-60 border bg-gray-00 border-gray-100 rounded-[3px] shadow-dropdown py-3",
         "absolute top-15",
+        "left-1/2 -translate-x-1/2 lg:left-0 lg:translate-x-0",
       )}
     >
       {categories.map((category) => {
@@ -229,8 +230,9 @@ const SubBrandCategory = ({
     <div
       className={cn(
         "p-5 border bg-gray-00 border-gray-100 rounded-[3px] shadow-dropdown",
-        "absolute top-15 left-62.75",
-        "flex gap-5",
+        "absolute lg:top-15 lg:left-62.75 lg:translate-x-0",
+        "flex gap-5 flex-col lg:flex-row",
+        "left-1/2 -translate-x-1/2 top-60",
       )}
     >
       {/* brand name */}

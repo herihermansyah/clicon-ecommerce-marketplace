@@ -2,10 +2,15 @@ import React from "react";
 import {LuShoppingCart} from "react-icons/lu";
 import {GrFavorite} from "react-icons/gr";
 import {PiUserBold} from "react-icons/pi";
+import {cn} from "@/lib/utils";
 
-const UserControlCompunded = () => {
+interface UserType {
+  className?: string;
+}
+
+const UserControlCompunded = ({className}: UserType) => {
   return (
-    <div className="flex items-center gap-6">
+    <div className={cn("flex items-center gap-6", className)}>
       <CartControl />
       <FavoriteControl />
       <UserControl />
@@ -13,25 +18,25 @@ const UserControlCompunded = () => {
   );
 };
 
-const CartControl = () => {
+const CartControl = ({className}: UserType) => {
   return (
-    <button className="text-gray-00">
+    <button className={cn("text-gray-00 cursor-pointer", className)}>
       <LuShoppingCart size={25} />
     </button>
   );
 };
 
-const FavoriteControl = () => {
+const FavoriteControl = ({className}: UserType) => {
   return (
-    <button className="text-gray-00">
+    <button className={cn("text-gray-00 cursor-pointer", className)}>
       <GrFavorite size={25} />
     </button>
   );
 };
 
-const UserControl = () => {
+const UserControl = ({className}: UserType) => {
   return (
-    <button className="text-gray-00">
+    <button className={cn("text-gray-00 cursor-pointer", className)}>
       <PiUserBold size={25} />
     </button>
   );

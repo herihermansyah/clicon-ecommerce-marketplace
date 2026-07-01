@@ -7,6 +7,7 @@ import {IoIosHelpCircleOutline} from "react-icons/io";
 import Link from "next/link";
 import Typography from "./ui/typography";
 import {usePathname} from "next/navigation";
+import {cn} from "@/lib/utils";
 
 interface HeaderMenuType {
   name: string;
@@ -37,22 +38,32 @@ const headerMenu: HeaderMenuType[] = [
   },
 ];
 
-const HeaderMenu = () => {
+interface HeaderMenuProps {
+  defaultColor?: string;
+}
+
+const HeaderMenu = ({defaultColor}: HeaderMenuProps) => {
   const pathname = usePathname();
   return (
-    <div className="flex items-center gap-6">
+    <div className="flex flex-col lg:flex-row items-center gap-6">
       {headerMenu.map((item) => {
         const isActive = pathname.startsWith(item.link);
         return (
           <Link
-            className={`flex items-center gap-1.5 ${isActive ? "text-primary-500" : "text-gray-600"}`}
+            className={cn(
+              `flex items-center gap-1.5`,
+              isActive ? "text-primary-500" : `text-gray-600 ${defaultColor}`,
+            )}
             key={item.link}
             href={item.link}
           >
             <span className="text-[24px]">{item.icon}</span>
             <Typography
               variant={"s"}
-              className={`capitalize text-gray-600 ${isActive ? "text-primary-500" : "text-gray-600"}`}
+              className={cn(
+                `capitalize`,
+                isActive ? "text-primary-500" : `text-gray-600 ${defaultColor}`,
+              )}
             >
               {item.name}
             </Typography>

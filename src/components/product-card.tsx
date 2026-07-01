@@ -17,7 +17,7 @@ const productVariants = cva("", {
   variants: {
     variant: {
       primary: "flex-col p-4",
-      secondary: "flex-row p-3 w-[312px] items-center",
+      secondary: "flex-row p-3 items-center",
     },
   },
   defaultVariants: {
@@ -39,7 +39,7 @@ const ProductCard = ({product, variant}: ProductCardProps) => {
   // conditional variants
   const isPrimary = variant === "primary" || !variant;
   return (
-    <Card key={product.id} className={cn(productVariants({variant}))}>
+    <Card key={product.id} className={cn(productVariants({variant}), "")}>
       <CardContent
         className={cn(
           "relative cursor-pointer group",
@@ -94,7 +94,7 @@ const ProductCard = ({product, variant}: ProductCardProps) => {
           </Badge>
         )}
       </CardContent>
-      <CardFooter>
+      <CardFooter className="w-49">
         {/* rating */}
         {isPrimary && (
           <div className="flex items-center gap-1">
@@ -113,7 +113,9 @@ const ProductCard = ({product, variant}: ProductCardProps) => {
           </div>
         )}
         {/* title */}
-        <Typography variant={"s"}>{product.title}</Typography>
+        <Typography variant={"s"} className="line-clamp-1">
+          {product.title}
+        </Typography>
         {/* price */}
         <div className="flex items-center gap-1">
           <Typography

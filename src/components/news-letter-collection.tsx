@@ -4,6 +4,7 @@ import {Input} from "./ui/input";
 import Button from "./ui/button";
 import {IoMdArrowForward} from "react-icons/io";
 import Image from "next/image";
+import {cn} from "@/lib/utils";
 
 interface SupportTech {
   id: number;
@@ -19,9 +20,18 @@ const supportTech: SupportTech[] = [
   {id: 5, image: "/samsung.svg", name: "samsung"},
 ];
 
-const NewsLetter = () => {
+interface NewsLetterProps {
+  className?: string;
+}
+
+const NewsLetter = ({className}: NewsLetterProps) => {
   return (
-    <div className="flex flex-col gap-8 items-center justify-center bg-secondary-700 py-18">
+    <div
+      className={cn(
+        "flex flex-col gap-8 items-center justify-center bg-secondary-700 py-18",
+        className,
+      )}
+    >
       <div className="flex flex-col gap-3 items-center justify-center">
         <Typography variant={"h1"} weight={600} className="text-gray-00">
           Subscribe to our newsletter
