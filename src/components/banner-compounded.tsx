@@ -14,18 +14,22 @@ import {BannerType} from "@/@types/banner-types";
 import {cva, VariantProps} from "class-variance-authority";
 import {cn} from "@/lib/utils";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
+import {motion} from "motion/react";
 
-export const bannerVariants = cva("bg-gray-50 p-14 w-full transition-all", {
-  variants: {
-    variant: {
-      primary: "block",
-      secondary: "relative",
+export const bannerVariants = cva(
+  "bg-gray-50 p-2 lg:p-14 w-full transition-all",
+  {
+    variants: {
+      variant: {
+        primary: "block",
+        secondary: "relative",
+      },
+    },
+    defaultVariants: {
+      variant: "secondary",
     },
   },
-  defaultVariants: {
-    variant: "secondary",
-  },
-});
+);
 
 export interface BannerHeroProps
   extends
@@ -43,25 +47,30 @@ const BannerCompounded = ({
   const router = useRouter();
 
   return (
-    <Banner className={cn(bannerVariants({variant}), className)} {...props}>
-      {variant === "secondary" ? (
-        <Swiper
-          loop={true}
-          pagination={{clickable: true}}
-          slidesPerView={1}
-          mousewheel={{forceToAxis: true}}
-          modules={[Mousewheel, Pagination]}
-        >
-          {data?.map((item) => (
-            <SwiperSlide key={item.id} className="w-full">
-              <RenderContent router={router} item={item} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      ) : (
-        data.length > 0 && <RenderContent router={router} item={data[0]} />
-      )}
-    </Banner>
+    <motion.div
+      initial={{scale: 0, opacity: 0}}
+      animate={{scale: 1, opacity: 1}}
+    >
+      <Banner className={cn(bannerVariants({variant}), className)} {...props}>
+        {variant === "secondary" ? (
+          <Swiper
+            loop={true}
+            pagination={{clickable: true}}
+            slidesPerView={1}
+            mousewheel={{forceToAxis: true}}
+            modules={[Mousewheel, Pagination]}
+          >
+            {data?.map((item) => (
+              <SwiperSlide key={item.id} className="w-full">
+                <RenderContent router={router} item={item} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        ) : (
+          data.length > 0 && <RenderContent router={router} item={data[0]} />
+        )}
+      </Banner>
+    </motion.div>
   );
 };
 

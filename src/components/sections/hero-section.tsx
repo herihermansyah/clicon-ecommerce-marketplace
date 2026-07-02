@@ -1,6 +1,7 @@
 import React from "react";
 import WrapperMain from "../wrapper-main";
 import BannerCompounded from "../banner-compounded";
+import FeaturesStore from "../features-store";
 
 const bannerHero = [
   {
@@ -41,8 +42,9 @@ const bannerHero = [
 const HeroSection = () => {
   return (
     <div>
-      <WrapperMain className="flex items-start gap-6">
+      <WrapperMain className="flex flex-col gap-6">
         <BannerCompounded data={bannerHero} />
+        <FeaturesStore />
       </WrapperMain>
     </div>
   );
