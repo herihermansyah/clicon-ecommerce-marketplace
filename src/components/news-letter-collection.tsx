@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import Typography from "./ui/typography";
 import {Input} from "./ui/input";
@@ -5,6 +6,7 @@ import Button from "./ui/button";
 import {IoMdArrowForward} from "react-icons/io";
 import Image from "next/image";
 import {cn} from "@/lib/utils";
+import {motion} from "motion/react";
 
 interface SupportTech {
   id: number;
@@ -26,7 +28,9 @@ interface NewsLetterProps {
 
 const NewsLetter = ({className}: NewsLetterProps) => {
   return (
-    <div
+    <motion.div
+      initial={{scale: 0, opacity: 0}}
+      animate={{scale: 1, opacity: 1}}
       className={cn(
         "flex flex-col gap-8 items-center justify-center bg-secondary-700 py-18",
         className,
@@ -66,7 +70,7 @@ const NewsLetter = ({className}: NewsLetterProps) => {
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

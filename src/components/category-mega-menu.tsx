@@ -7,6 +7,7 @@ import Typography from "./ui/typography";
 import ProductCard from "./product-card";
 import {ProductTypes} from "@/@types/product-types";
 import {Categories} from "@/@types/categories-type";
+import {motion} from "motion/react";
 
 const categoryData: Categories[] = [
   {
@@ -126,7 +127,11 @@ const CategoryMegaMenu = () => {
     return product.brand?.toLowerCase() === selectedBrand?.toLowerCase();
   });
   return (
-    <div className="relative">
+    <motion.div
+      initial={{scale: 0, opacity: 0}}
+      animate={{scale: 1, opacity: 1}}
+      className="relative"
+    >
       <button
         onClick={toggleMenu}
         className={cn(
@@ -164,7 +169,7 @@ const CategoryMegaMenu = () => {
           filterProduct={filteredProducts}
         />
       )}
-    </div>
+    </motion.div>
   );
 };
 

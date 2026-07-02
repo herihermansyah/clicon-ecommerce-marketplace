@@ -1,3 +1,4 @@
+"use client"
 import ContactDetails from "@/components/contact-details";
 import DownloadApp from "@/components/download-app";
 import FooterMenu from "@/components/footer-menu";

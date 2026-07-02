@@ -1,7 +1,9 @@
+"use client"
 import React from "react";
 import {FaGooglePlay} from "react-icons/fa";
 import {FaApple} from "react-icons/fa";
 import Typography from "./ui/typography";
+import {motion} from "motion/react";
 
 interface DownloadAppType {
   icon: React.ReactNode;
@@ -15,7 +17,11 @@ const downloadAppData: DownloadAppType[] = [
 
 const DownloadApp = () => {
   return (
-    <div className="flex flex-col gap-4.5 w-50">
+    <motion.div
+      initial={{scale: 0, opacity: 0}}
+      animate={{scale: 1, opacity: 1}}
+      className="flex flex-col gap-4.5 w-50"
+    >
       <Typography variant={"m"} weight={500} className="text-gray-00 uppercase">
         download app
       </Typography>
@@ -37,7 +43,7 @@ const DownloadApp = () => {
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,6 +1,8 @@
+"use client"
 import React from "react";
 import Typography from "./ui/typography";
 import Link from "next/link";
+import {motion} from "motion/react";
 
 interface FooterMenuType {
   name: string;
@@ -21,7 +23,11 @@ const FooterMenu = <T extends FooterMenuType>({
   link,
 }: FooterMenuProps<T>) => {
   return (
-    <div className="flex flex-col gap-4.5 w-50">
+    <motion.div
+      initial={{scale: 0, opacity: 0}}
+      animate={{scale: 1, opacity: 1}}
+      className="flex flex-col gap-4.5 w-50"
+    >
       <Typography variant={"m"} weight={500} className="text-gray-00 uppercase">
         {title}
       </Typography>
@@ -43,7 +49,7 @@ const FooterMenu = <T extends FooterMenuType>({
           </Link>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

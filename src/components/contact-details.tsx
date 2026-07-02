@@ -1,10 +1,16 @@
+"use client"
 import Image from "next/image";
 import React from "react";
 import Typography from "./ui/typography";
+import {motion} from "motion/react";
 
 const ContactDetails = () => {
   return (
-    <div className="flex flex-col gap-6 w-78">
+    <motion.div
+      initial={{scale: 0, opacity: 0}}
+      animate={{scale: 1, opacity: 1}}
+      className="flex flex-col gap-6 w-78"
+    >
       <Image src={"/logo-primary.svg"} alt="logo" width={177} height={148} />
       <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-1">
@@ -22,7 +28,7 @@ const ContactDetails = () => {
           info@kinbo.com
         </Typography>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

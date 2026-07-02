@@ -8,6 +8,7 @@ import Link from "next/link";
 import Typography from "./ui/typography";
 import {usePathname} from "next/navigation";
 import {cn} from "@/lib/utils";
+import {motion} from "motion/react";
 
 interface HeaderMenuType {
   name: string;
@@ -45,7 +46,11 @@ interface HeaderMenuProps {
 const HeaderMenu = ({defaultColor}: HeaderMenuProps) => {
   const pathname = usePathname();
   return (
-    <div className="flex flex-col lg:flex-row items-center gap-6">
+    <motion.div
+      initial={{scale: 0, opacity: 0}}
+      animate={{scale: 1, opacity: 1}}
+      className="flex flex-col lg:flex-row items-center gap-6"
+    >
       {headerMenu.map((item) => {
         const isActive = pathname.startsWith(item.link);
         return (
@@ -70,7 +75,7 @@ const HeaderMenu = ({defaultColor}: HeaderMenuProps) => {
           </Link>
         );
       })}
-    </div>
+    </motion.div>
   );
 };
 

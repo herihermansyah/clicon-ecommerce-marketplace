@@ -15,17 +15,23 @@ import {MdOutlineMenu} from "react-icons/md";
 import {MdClose} from "react-icons/md";
 import React from "react";
 import {cn} from "@/lib/utils";
+import {motion} from "motion/react";
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   return (
-    <div>
+    <React.Fragment>
       {/* welcome , social media, languange and currency */}
       <div className="bg-secondary-700 py-3 border-b border-gray-600">
         <WrapperMain className="flex items-center justify-between whitespace-nowrap flex-col md:flex-row gap-2">
-          <Typography variant={"s"} className="text-gray-00">
-            Welcome to Clicon online eCommerce store.{" "}
-          </Typography>
+          <motion.div
+            initial={{scale: 0, opacity: 0}}
+            animate={{scale: 1, opacity: 1}}
+          >
+            <Typography variant={"s"} className="text-gray-00">
+              Welcome to Clicon online eCommerce store.{" "}
+            </Typography>
+          </motion.div>
           <div className="flex items-center gap-2 md:gap-6 flex-wrap justify-center">
             <SocialMedia />
             <div className="w-px h-7 bg-gray-500 hidden sm:block" />
@@ -74,15 +80,19 @@ const Header = () => {
             <CategoryMegaMenu />
             <HeaderMenu />
           </div>
-          <div className="flex items-center gap-2 whitespace-nowrap">
+          <motion.div
+            initial={{scale: 0, opacity: 0}}
+            animate={{scale: 1, opacity: 1}}
+            className="flex items-center gap-2 whitespace-nowrap"
+          >
             <span className="text-[28px] text-gray-900">
               <PiPhoneCallLight />
             </span>
             <Typography variant={"l"}>+1-202-555-0104</Typography>
-          </div>
+          </motion.div>
         </WrapperMain>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

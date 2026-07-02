@@ -5,6 +5,7 @@ import {MdKeyboardArrowUp} from "react-icons/md";
 import Typography from "./ui/typography";
 import {FiCheck} from "react-icons/fi";
 import {cn} from "@/lib/utils";
+import {motion} from "motion/react";
 
 type Language = {
   code: "Eng" | "Ru";
@@ -27,7 +28,11 @@ const LanguageSelect = () => {
     setIsOpen(false);
   };
   return (
-    <div className="relative">
+    <motion.div
+      initial={{scale: 0, opacity: 0}}
+      animate={{scale: 1, opacity: 1}}
+      className="relative"
+    >
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1.5 cursor-pointer text-[14px] text-gray-00"
@@ -82,7 +87,7 @@ const LanguageSelect = () => {
           })}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

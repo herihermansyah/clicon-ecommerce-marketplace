@@ -1,6 +1,8 @@
+"use client"
 import React from "react";
 import Typography from "./ui/typography";
 import Link from "next/link";
+import {motion} from "motion/react";
 
 const popularTagData = [
   {name: "Game", link: "game"},
@@ -14,7 +16,11 @@ const popularTagData = [
 
 const PopularTag = () => {
   return (
-    <div className="flex flex-col gap-4.5 w-78">
+    <motion.div
+      initial={{scale: 0, opacity: 0}}
+      animate={{scale: 1, opacity: 1}}
+      className="flex flex-col gap-4.5 w-78"
+    >
       <Typography variant={"m"} weight={500} className="text-gray-00 uppercase">
         popular tag
       </Typography>
@@ -35,7 +41,7 @@ const PopularTag = () => {
           </Link>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

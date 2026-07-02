@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link";
 import React from "react";
 import {
@@ -9,6 +10,7 @@ import {
   FaFacebook,
 } from "react-icons/fa";
 import Typography from "./ui/typography";
+import {motion} from "motion/react";
 
 const socialMediaData = [
   {name: "twitter", icon: <FaTwitter size={16} />, link: "/twitter.com"},
@@ -21,7 +23,11 @@ const socialMediaData = [
 
 const SocialMedia = () => {
   return (
-    <div className="flex items-center gap-3">
+    <motion.div
+      initial={{scale: 0, opacity: 0}}
+      animate={{scale: 1, opacity: 1}}
+      className="flex items-center gap-3"
+    >
       <Typography variant={"s"} className="text-gray-00">
         Follow us:
       </Typography>
@@ -30,7 +36,7 @@ const SocialMedia = () => {
           <Link href={item.link}>{item.icon}</Link>
         </div>
       ))}
-    </div>
+    </motion.div>
   );
 };
 
