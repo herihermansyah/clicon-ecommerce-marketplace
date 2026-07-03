@@ -10,3 +10,9 @@ export type Categories = {
   image?: string;
   subCategories: Brands[];
 };
+
+export type CategoryType = {
+  slug: string;
+  name: string;
+  url: string;
+};
