@@ -41,12 +41,12 @@ const bannerHero = [
 
 const HeroSection = () => {
   return (
-    <div>
+    <section>
       <WrapperMain className="flex flex-col gap-6">
         <BannerCompounded data={bannerHero} />
         <FeaturesStore />
       </WrapperMain>
-    </div>
+    </section>
   );
 };
 
