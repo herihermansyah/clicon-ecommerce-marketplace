@@ -8,6 +8,7 @@ import ProductCard from "./product-card";
 import {ProductTypes} from "@/@types/product-types";
 import {Categories} from "@/@types/categories-type";
 import {motion} from "motion/react";
+import {getProducts} from "@/service/products";
 
 const categoryData: Categories[] = [
   {
@@ -53,48 +54,6 @@ const categoryData: Categories[] = [
   },
 ];
 
-const productMockData = Array.from({length: 3}).map(
-  (_, i) =>
-    ({
-      id: i + 1,
-      title: "Essence Mascara Lash Princess",
-      description:
-        "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
-      category: "smartphones",
-      price: 9.99,
-      discountPercentage: 10.48,
-      rating: 2.56,
-      stock: 99,
-      thumbnail:
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      reviews: [
-        {
-          rating: 3,
-          comment: "Would not recommend!",
-          date: "2025-04-30T09:41:02.053Z",
-          reviewerName: "Eleanor Collins",
-          reviewerEmail: "eleanor.collins@x.dummyjson.com",
-        },
-        {
-          rating: 4,
-          comment: "Very satisfied!",
-          date: "2025-04-30T09:41:02.053Z",
-          reviewerName: "Lucas Gordon",
-          reviewerEmail: "lucas.gordon@x.dummyjson.com",
-        },
-        {
-          rating: 5,
-          comment: "Highly impressed!",
-          date: "2025-04-30T09:41:02.053Z",
-          reviewerName: "Eleanor Collins",
-          reviewerEmail: "eleanor.collins@x.dummyjson.com",
-        },
-      ],
-      brand: "apple",
-      availabilityStatus: "In Stock",
-    }) as ProductTypes,
-);
-
 // ======================== Category Mega Menu ========================
 
 const CategoryMegaMenu = () => {
@@ -102,6 +61,7 @@ const CategoryMegaMenu = () => {
   const [selectedCategory, setSelectedCategory] =
     React.useState<Categories | null>(null);
   const [selectedBrand, setSelectedBrand] = React.useState<string | null>(null);
+  const [prodcut, setProduct] = React.useState<ProductTypes[]>([]);
 
   const toggleMenu = () => {
     if (isOpen) {
@@ -111,21 +71,37 @@ const CategoryMegaMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  React.useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const data = await getProducts();
+        setProduct(data.products);
+      } catch {
+        console.log("failed get product");
+      } finally {
+        setIsOpen(false);
+      }
+    };
+    fetchProduct();
+  }, []);
+
   const handleSelecCategory = (category: Categories) => {
     setSelectedCategory(category);
     setSelectedBrand(null);
   };
 
-  const filteredProducts = productMockData.filter((product) => {
-    // product category
-    const isMatchingCategory =
-      product.category.toLowerCase() ===
-      selectedCategory?.category.toLowerCase();
-    if (!isMatchingCategory) return false;
-    // product brand
-    if (!selectedBrand) return true;
-    return product.brand?.toLowerCase() === selectedBrand?.toLowerCase();
-  });
+  const filteredProducts = prodcut
+    .filter((product) => {
+      // product category
+      const isMatchingCategory =
+        product.category.toLowerCase() ===
+        selectedCategory?.category.toLowerCase();
+      if (!isMatchingCategory) return false;
+      // product brand
+      if (!selectedBrand) return true;
+      return product.brand?.toLowerCase() === selectedBrand?.toLowerCase();
+    })
+    .slice(0, 3);
   return (
     <motion.div
       initial={{scale: 0, opacity: 0}}
@@ -188,7 +164,7 @@ const MainCategory = ({
     <div
       className={cn(
         "w-60 border bg-gray-00 border-gray-100 rounded-[3px] shadow-dropdown py-3",
-        "absolute top-15",
+        "absolute top-15 z-2",
         "left-1/2 -translate-x-1/2 lg:left-0 lg:translate-x-0",
       )}
     >
@@ -235,7 +211,7 @@ const SubBrandCategory = ({
     <div
       className={cn(
         "p-5 border bg-gray-00 border-gray-100 rounded-[3px] shadow-dropdown",
-        "absolute lg:top-15 lg:left-62.75 lg:translate-x-0",
+        "absolute lg:top-15 lg:left-62.75 lg:translate-x-0 z-2",
         "flex gap-5 flex-col lg:flex-row",
         "left-1/2 -translate-x-1/2 top-60",
       )}
