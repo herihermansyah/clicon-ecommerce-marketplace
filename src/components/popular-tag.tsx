@@ -1,8 +1,9 @@
-"use client"
+"use client";
 import React from "react";
 import Typography from "./ui/typography";
 import Link from "next/link";
 import {motion} from "motion/react";
+import {cn} from "@/lib/utils";
 
 const popularTagData = [
   {name: "Game", link: "game"},
@@ -14,14 +15,22 @@ const popularTagData = [
   {name: "Powerbank", link: "powerbank"},
 ];
 
-const PopularTag = () => {
+interface PopularTagProps {
+  fontColor?: string;
+}
+
+const PopularTag = ({fontColor}: PopularTagProps) => {
   return (
     <motion.div
       initial={{scale: 0, opacity: 0}}
       animate={{scale: 1, opacity: 1}}
       className="flex flex-col gap-4.5 w-78"
     >
-      <Typography variant={"m"} weight={500} className="text-gray-00 uppercase">
+      <Typography
+        variant={"m"}
+        weight={500}
+        className={cn("text-gray-00 uppercase", fontColor)}
+      >
         popular tag
       </Typography>
       <div className="flex items-center gap-2 flex-wrap">
