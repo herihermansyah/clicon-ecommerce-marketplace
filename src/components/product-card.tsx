@@ -39,7 +39,10 @@ const ProductCard = ({product, variant}: ProductCardProps) => {
   // conditional variants
   const isPrimary = variant === "primary" || !variant;
   return (
-    <Card key={product.id} className={cn(productVariants({variant}), "overflow-hidden")}>
+    <Card
+      key={product.id}
+      className={cn(productVariants({variant}), "overflow-hidden")}
+    >
       <CardContent
         className={cn(
           "relative cursor-pointer group",

@@ -19,7 +19,7 @@ interface HeaderMenuType {
 const headerMenu: HeaderMenuType[] = [
   {
     name: "track order",
-    link: "/trackorder",
+    link: "/track-order",
     icon: <PiMapPinLineLight />,
   },
   {
