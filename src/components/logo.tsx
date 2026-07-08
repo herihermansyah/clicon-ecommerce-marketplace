@@ -1,7 +1,8 @@
-"use client"
+"use client";
 import Image from "next/image";
 import React from "react";
 import {motion} from "motion/react";
+import Link from "next/link";
 
 const Logo = () => {
   return (
@@ -10,7 +11,9 @@ const Logo = () => {
       animate={{scale: 1, opacity: 1}}
       className="min-w-44.25 h-min-[48px]"
     >
-      <Image src="/logo.svg" alt="logo" width={177} height={48} priority />
+      <Link href="/">
+        <Image src="/logo.svg" alt="logo" width={177} height={48} priority />
+      </Link>
     </motion.div>
   );
 };

@@ -12,6 +12,7 @@ import {ProductTypes} from "@/@types/product-types";
 import {cva, VariantProps} from "class-variance-authority";
 import {cn} from "@/lib/utils";
 import Typography from "./ui/typography";
+import Link from "next/link";
 
 const productVariants = cva("", {
   variants: {
@@ -34,10 +35,14 @@ const ProductCard = ({product, variant}: ProductCardProps) => {
   const fixedPrice = (
     product.price *
     (1 - product.discountPercentage / 100)
-  ).toFixed(2);
+  ).toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
 
   // conditional variants
   const isPrimary = variant === "primary" || !variant;
+
   return (
     <Card
       key={product.id}
@@ -116,9 +121,13 @@ const ProductCard = ({product, variant}: ProductCardProps) => {
           </div>
         )}
         {/* title */}
-        <Typography variant={"s"} className="line-clamp-1">
-          {product.title}
-        </Typography>
+        <Link
+          href={`/shop/${product.category}-${product.brand}-${product.title}-${product.id}`}
+        >
+          <Typography variant={"s"} className="line-clamp-1">
+            {product.title}
+          </Typography>
+        </Link>
         {/* price */}
         <div className="flex items-center gap-1">
           <Typography

@@ -46,7 +46,9 @@ const SearchBar = ({className}: SearchBarProps) => {
     const keyword = debouncedQuery.toLowerCase();
     return (
       item.title.toLowerCase().includes(keyword) ||
-      item.description.toLowerCase().includes(keyword)
+      item.description.toLowerCase().includes(keyword) ||
+      item.category.toLowerCase().includes(keyword) ||
+      item.brand?.toLowerCase().includes(keyword)
     );
   });
 
@@ -87,6 +89,7 @@ const SearchBar = ({className}: SearchBarProps) => {
                   initial={{scale: 0, opacity: 0}}
                   animate={{scale: 1, opacity: 1}}
                   key={item.id}
+                  onClick={() => setIsOpen(!isOpen)}
                 >
                   <ProductCard variant={"secondary"} product={item} />
                 </motion.div>
