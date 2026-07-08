@@ -9,8 +9,14 @@ import Badge from "../ui/badge";
 import {SwiperSlide, Swiper} from "swiper/react";
 import {Navigation} from "swiper/modules";
 import IconButton from "../ui/icon-button";
-import {IoMdArrowBack, IoMdArrowForward} from "react-icons/io";
+import {IoIosGitCompare, IoMdArrowBack, IoMdArrowForward} from "react-icons/io";
 import "swiper/css";
+import Button from "../ui/button";
+import {LuShoppingCart} from "react-icons/lu";
+import {FiMinus} from "react-icons/fi";
+import {GoPlus} from "react-icons/go";
+import {GrFavorite} from "react-icons/gr";
+import {Card, CardContent, CardHeader} from "../ui/card";
 
 interface ProductDetailProps {
   product: ProductTypes;
@@ -18,10 +24,15 @@ interface ProductDetailProps {
 
 const ProductDetail = ({product}: ProductDetailProps) => {
   return (
-    <section className="grid grid-cols-2 gap-14">
-      {/* images */}
-      <ProductImage product={product} />
-      <ProductHeader product={product} />
+    <section>
+      <div className="grid grid-cols-2 gap-14 pb-18">
+        <ProductImage product={product} />
+        <div className="flex flex-col gap-6">
+          <ProductHeader product={product} />
+          <ProductCTA />
+        </div>
+      </div>
+      <ProductInformation product={product} />
     </section>
   );
 };
@@ -170,4 +181,166 @@ const ProductHeader = ({product}: ProductDetailProps) => {
   );
 };
 
-export {ProductDetail, ProductImage};
+const ProductCTA = () => {
+  return (
+    <div className="flex flex-col gap-6 border-b border-gray-100 pb-6">
+      {/* quantity and cta */}
+      <div className="flex items-center justify-between gap-4">
+        {/* quantity */}
+        <div className="flex items-center gap-9.5 px-5 py-4 border border-gray-100 rounded-md">
+          <button className="cursor-pointer">
+            <FiMinus />
+          </button>
+          <Typography variant={"m"} className="text-gray-700">
+            01
+          </Typography>
+          <button className="cursor-pointer">
+            <GoPlus />
+          </button>
+        </div>
+        <Button
+          size={"large"}
+          iconRight={<LuShoppingCart />}
+          className="w-77.5 items-center justify-center"
+        >
+          ADD TO CART
+        </Button>
+        <Button
+          size={"large"}
+          variant={"outline"}
+          className="whitespace-nowrap"
+        >
+          BUY NOW
+        </Button>
+      </div>
+      {/* add whislist and compare */}
+      <div className="flex items-center gap-6">
+        <button className="flex items-center gap-1.5 text-gray-700 cursor-pointer">
+          <span>
+            <GrFavorite size={18} />
+          </span>
+          <Typography variant={"s"} className="text-gray-700">
+            Add to Wishlist
+          </Typography>
+        </button>
+        <button className="flex items-center gap-1.5 text-gray-700 cursor-pointer">
+          <span>
+            <IoIosGitCompare size={18} />
+          </span>
+          <Typography variant={"s"} className="text-gray-700">
+            Add to Compare
+          </Typography>
+        </button>
+      </div>
+    </div>
+  );
+};
+
+type Information =
+  | "Description"
+  | "Additional Information"
+  | "Specification"
+  | "Review";
+
+const ProductInformation = ({product}: ProductDetailProps) => {
+  const [selectedInformation, setSelectedInformation] =
+    React.useState<Information>("Description");
+  return (
+    <Card className="p-0">
+      <CardHeader className="flex flex-row items-center justify-center border-b border-gray-100">
+        <button
+          className={cn(
+            "text-[14px] cursor-pointer uppercase font-medium leading-5 text-gray-600",
+            "px-5 py-4.5",
+            selectedInformation === "Description"
+              ? "border-b-4 border-primary-500 text-gray-900"
+              : "",
+          )}
+          onClick={() => setSelectedInformation("Description")}
+        >
+          description
+        </button>
+        <button
+          className={cn(
+            "text-[14px] cursor-pointer uppercase font-medium leading-5 text-gray-600",
+            "px-5 py-4.5",
+            selectedInformation === "Additional Information"
+              ? "border-b-4 border-primary-500 text-gray-900"
+              : "",
+          )}
+          onClick={() => setSelectedInformation("Additional Information")}
+        >
+          Additional Information
+        </button>
+        <button
+          className={cn(
+            "text-[14px] cursor-pointer uppercase font-medium leading-5 text-gray-600",
+            "px-5 py-4.5",
+            selectedInformation === "Specification"
+              ? "border-b-4 border-primary-500 text-gray-900"
+              : "",
+          )}
+          onClick={() => setSelectedInformation("Specification")}
+        >
+          Specification
+        </button>
+        <button
+          className={cn(
+            "text-[14px] cursor-pointer uppercase font-medium leading-5 text-gray-600",
+            "px-5 py-4.5",
+            selectedInformation === "Review"
+              ? "border-b-4 border-primary-500 text-gray-900"
+              : "",
+          )}
+          onClick={() => setSelectedInformation("Review")}
+        >
+          Review
+        </button>
+      </CardHeader>
+      <CardContent className="p-10">
+        {selectedInformation === "Description" && (
+          <div className="flex flex-col gap-3">
+            <Typography variant={"m"} weight={600}>
+              Description
+            </Typography>
+            <Typography variant={"s"} className="text-gray-600">
+              {product.description}
+            </Typography>
+          </div>
+        )}
+        {selectedInformation === "Additional Information" && (
+          <div className="flex flex-col gap-3">
+            <Typography variant={"m"} weight={600}>
+              Additional Information
+            </Typography>
+            <Typography variant={"s"} className="text-gray-600">
+              {product.description}
+            </Typography>
+          </div>
+        )}
+        {selectedInformation === "Specification" && (
+          <div className="flex flex-col gap-3">
+            <Typography variant={"m"} weight={600}>
+              Specification
+            </Typography>
+            <Typography variant={"s"} className="text-gray-600">
+              {product.description}
+            </Typography>
+          </div>
+        )}
+        {selectedInformation === "Review" && (
+          <div className="flex flex-col gap-3">
+            <Typography variant={"m"} weight={600}>
+              Review
+            </Typography>
+            <Typography variant={"s"} className="text-gray-600">
+              {product.description}
+            </Typography>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+export {ProductDetail};
