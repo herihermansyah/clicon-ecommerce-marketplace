@@ -50,7 +50,7 @@ const ShopSection = () => {
             <ProductCard key={item.id} product={item} />
           ))
         ) : (
-          <div>data tida ada</div>
+          <Typography variant={"s"}>No products found.</Typography>
         )}
       </div>
     </section>

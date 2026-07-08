@@ -8,6 +8,7 @@ import {ProductTypes} from "@/@types/product-types";
 import ProductCard from "./product-card";
 import {searchProduct} from "@/service/products";
 import {useRouter} from "next/navigation";
+import Typography from "./ui/typography";
 
 interface SearchBarProps {
   className?: string;
@@ -91,8 +92,9 @@ const SearchBar = ({className}: SearchBarProps) => {
                 </motion.div>
               ))
             ) : (
-              <div>
-                <p>not found : {query}</p>
+              <div className="flex flex-col gap-2 justify-center text-center mt-10">
+                <Typography variant={"s"}>No products found.</Typography>
+                <Typography variant={"l"}>-{query}-</Typography>
               </div>
             )}
           </div>
