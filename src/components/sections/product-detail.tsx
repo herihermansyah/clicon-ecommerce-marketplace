@@ -17,6 +17,7 @@ import {FiMinus} from "react-icons/fi";
 import {GoPlus} from "react-icons/go";
 import {GrFavorite} from "react-icons/gr";
 import {Card, CardContent, CardHeader} from "../ui/card";
+import {motion} from "motion/react";
 
 interface ProductDetailProps {
   product: ProductTypes;
@@ -24,7 +25,7 @@ interface ProductDetailProps {
 
 const ProductDetail = ({product}: ProductDetailProps) => {
   return (
-    <section>
+    <motion.section initial={{opacity: 0}} animate={{opacity: 1}}>
       <div className="grid grid-cols-2 gap-14 pb-18">
         <ProductImage product={product} />
         <div className="flex flex-col gap-6">
@@ -33,20 +34,20 @@ const ProductDetail = ({product}: ProductDetailProps) => {
         </div>
       </div>
       <ProductInformation product={product} />
-    </section>
+    </motion.section>
   );
 };
 
 const ProductImage = ({product}: ProductDetailProps) => {
   const [selectedThumbnails, setSelectedThumbnails] = React.useState<string>(
-    product.images[1],
+    product.thumbnail,
   );
 
   return (
     <div className="flex flex-col gap-6">
       <div className="relative border h-116 border-gray-100 rounded-md p-4 overflow-hidden">
         <Image
-          src={selectedThumbnails}
+          src={selectedThumbnails || "/"}
           alt={product.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -245,59 +246,34 @@ type Information =
 const ProductInformation = ({product}: ProductDetailProps) => {
   const [selectedInformation, setSelectedInformation] =
     React.useState<Information>("Description");
+
+  const selectHeader: {name: Information}[] = [
+    {name: "Description"},
+    {name: "Additional Information"},
+    {name: "Specification"},
+    {name: "Review"},
+  ];
   return (
     <Card className="p-0">
       <CardHeader className="flex flex-row items-center justify-center border-b border-gray-100">
-        <button
-          className={cn(
-            "text-[14px] cursor-pointer uppercase font-medium leading-5 text-gray-600",
-            "px-5 py-4.5",
-            selectedInformation === "Description"
-              ? "border-b-4 border-primary-500 text-gray-900"
-              : "",
-          )}
-          onClick={() => setSelectedInformation("Description")}
-        >
-          description
-        </button>
-        <button
-          className={cn(
-            "text-[14px] cursor-pointer uppercase font-medium leading-5 text-gray-600",
-            "px-5 py-4.5",
-            selectedInformation === "Additional Information"
-              ? "border-b-4 border-primary-500 text-gray-900"
-              : "",
-          )}
-          onClick={() => setSelectedInformation("Additional Information")}
-        >
-          Additional Information
-        </button>
-        <button
-          className={cn(
-            "text-[14px] cursor-pointer uppercase font-medium leading-5 text-gray-600",
-            "px-5 py-4.5",
-            selectedInformation === "Specification"
-              ? "border-b-4 border-primary-500 text-gray-900"
-              : "",
-          )}
-          onClick={() => setSelectedInformation("Specification")}
-        >
-          Specification
-        </button>
-        <button
-          className={cn(
-            "text-[14px] cursor-pointer uppercase font-medium leading-5 text-gray-600",
-            "px-5 py-4.5",
-            selectedInformation === "Review"
-              ? "border-b-4 border-primary-500 text-gray-900"
-              : "",
-          )}
-          onClick={() => setSelectedInformation("Review")}
-        >
-          Review
-        </button>
+        {selectHeader.map((item) => (
+          <button
+            key={item.name}
+            className={cn(
+              "text-[14px] cursor-pointer uppercase font-medium leading-5 text-gray-600",
+              "px-5 py-4.5",
+              selectedInformation === item.name
+                ? "border-b-4 border-primary-500 text-gray-900"
+                : "",
+            )}
+            onClick={() => setSelectedInformation(item.name)}
+          >
+            {item.name}
+          </button>
+        ))}
       </CardHeader>
       <CardContent className="p-10">
+        {/* description */}
         {selectedInformation === "Description" && (
           <div className="flex flex-col gap-3">
             <Typography variant={"m"} weight={600}>
@@ -308,34 +284,104 @@ const ProductInformation = ({product}: ProductDetailProps) => {
             </Typography>
           </div>
         )}
+        {/* additional information */}
         {selectedInformation === "Additional Information" && (
           <div className="flex flex-col gap-3">
             <Typography variant={"m"} weight={600}>
               Additional Information
             </Typography>
-            <Typography variant={"s"} className="text-gray-600">
-              {product.description}
-            </Typography>
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-2">
+                <Typography variant={"s"} className="text-gray-600">
+                  Tags :
+                </Typography>
+                {product.tags.map((item, i) => (
+                  <Badge variant={"secondary"} key={i}>
+                    {item}
+                  </Badge>
+                ))}
+              </div>
+              <Typography variant={"s"} className="text-gray-600">
+                Stock : {product.stock}
+              </Typography>
+              <Typography variant={"s"} className="text-gray-600">
+                Warranty information : {product.warrantyInformation}
+              </Typography>
+              <Typography variant={"s"} className="text-gray-600">
+                Shipping Information : {product.shippingInformation}
+              </Typography>
+              <Typography variant={"s"} className="text-gray-600">
+                Return Policy : {product.returnPolicy}
+              </Typography>
+              <Typography variant={"s"} className="text-gray-600">
+                Minimum Order : {product.minimumOrderQuantity}
+              </Typography>
+            </div>
           </div>
         )}
+        {/* specification */}
         {selectedInformation === "Specification" && (
           <div className="flex flex-col gap-3">
             <Typography variant={"m"} weight={600}>
               Specification
             </Typography>
-            <Typography variant={"s"} className="text-gray-600">
-              {product.description}
-            </Typography>
+            <div className="flex flex-col gap-4">
+              <Typography variant={"s"} className="text-gray-600">
+                Weight: {product.dimensions.width}
+              </Typography>
+              <Typography variant={"s"} className="text-gray-600">
+                Width: {product.dimensions.width}
+              </Typography>
+              <Typography variant={"s"} className="text-gray-600">
+                Height: {product.dimensions.height}
+              </Typography>
+              <Typography variant={"s"} className="text-gray-600">
+                Depth: {product.dimensions.depth}
+              </Typography>
+            </div>
           </div>
         )}
+        {/* review */}
         {selectedInformation === "Review" && (
           <div className="flex flex-col gap-3">
             <Typography variant={"m"} weight={600}>
               Review
             </Typography>
-            <Typography variant={"s"} className="text-gray-600">
-              {product.description}
-            </Typography>
+            <div>
+              <div className="flex flex-col gap-4 divide-y divide-gray-100">
+                {product.reviews.map((item, i) => (
+                  <div key={i} className="flex flex-col gap-1 py-5">
+                    <Typography variant={"s"} weight={600}>
+                      Name : {item.reviewerName}
+                    </Typography>
+                    <Typography variant={"s"} className="text-gray-600">
+                      Email : {item.reviewerEmail}
+                    </Typography>
+                    <div className="flex items-center gap-0.5">
+                      {Array.from({length: 5}).map((_, i) =>
+                        i < Math.round(product.rating) ? (
+                          <FaStar
+                            key={i}
+                            className="text-[14px] text-primary-500"
+                          />
+                        ) : (
+                          <FaRegStar
+                            key={i}
+                            className="text-[14px] text-gray-500"
+                          />
+                        ),
+                      )}
+                    </div>
+                    <Typography variant={"s"} className="text-gray-600">
+                      Comment : {item.comment}
+                    </Typography>
+                    <Typography variant={"s"} className="text-gray-600">
+                      Date : {item.date}
+                    </Typography>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </CardContent>
