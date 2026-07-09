@@ -26,16 +26,36 @@ const UserControlCompunded = ({className}: UserType) => {
 
 const CartControl = ({className}: UserType) => {
   return (
-    <button className={cn("text-gray-00 cursor-pointer", className)}>
+    <button className={cn("text-gray-00 cursor-pointer relative", className)}>
       <LuShoppingCart size={25} />
+      <span
+        className={cn(
+          "absolute -top-2 -right-2 text-[12px] font-semibold text-secondary-700",
+          "bg-gray-00 rounded-full w-5 h-5",
+          "flex items-center justify-center",
+          "border-2 border-secondary-700",
+        )}
+      >
+        2
+      </span>
     </button>
   );
 };
 
 const FavoriteControl = ({className}: UserType) => {
   return (
-    <button className={cn("text-gray-00 cursor-pointer", className)}>
+    <button className={cn("text-gray-00 cursor-pointer relative", className)}>
       <GrFavorite size={25} />
+      <span
+        className={cn(
+          "absolute -top-2 -right-2 text-[12px] font-semibold text-secondary-700",
+          "bg-gray-00 rounded-full w-5 h-5",
+          "flex items-center justify-center",
+          "border-2 border-secondary-700",
+        )}
+      >
+        2
+      </span>
     </button>
   );
 };
