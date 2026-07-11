@@ -93,8 +93,6 @@ Bash
 pnpm start
 Linting
 To run ESLint and check for code quality issues:
-
-Bash
 pnpm lint
 
 ```bash
