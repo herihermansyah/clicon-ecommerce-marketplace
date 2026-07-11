@@ -7,7 +7,6 @@ import Button from "../ui/button";
 import {IoArrowBackOutline} from "react-icons/io5";
 
 const CartShopSection = () => {
-  // Asumsi store kamu punya fungsi untuk update qty dan remove item
   const {cartItems} = useCartStore();
 
   return (
@@ -50,10 +49,7 @@ const CartShopSection = () => {
                       <td className="py-6 px-6">
                         <div className="flex items-center gap-6">
                           {/* Remove Button */}
-                          <button
-                            // onClick={() => removeFromCart?.(item.product.id)}
-                            className="text-gray-400 hover:text-red-500 transition-colors"
-                          >
+                          <button className="text-gray-400 hover:text-red-500 transition-colors">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               className="h-6 w-6"
@@ -102,29 +98,13 @@ const CartShopSection = () => {
                       {/* Quantity Column */}
                       <td className="py-6 px-6">
                         <div className="flex items-center border border-gray-200 rounded-sm w-32 justify-between bg-white px-2 py-1">
-                          <button
-                            // onClick={() =>
-                            //   updateQuantity?.(
-                            //     item.product.id,
-                            //     Math.max(1, item.quantity - 1),
-                            //   )
-                            // }
-                            className="text-gray-500 hover:text-gray-700 px-2 text-lg font-light select-none"
-                          >
+                          <button className="text-gray-500 hover:text-gray-700 px-2 text-lg font-light select-none">
                             &mdash;
                           </button>
                           <span className="text-sm font-medium text-gray-700 w-8 text-center">
                             {String(item.quantity).padStart(2, "0")}
                           </span>
-                          <button
-                            // onClick={() =>
-                            //   updateQuantity?.(
-                            //     item.product.id,
-                            //     item.quantity + 1,
-                            //   )
-                            // }
-                            className="text-gray-500 hover:text-gray-700 px-2 text-lg font-light select-none"
-                          >
+                          <button className="text-gray-500 hover:text-gray-700 px-2 text-lg font-light select-none">
                             &#43;
                           </button>
                         </div>
