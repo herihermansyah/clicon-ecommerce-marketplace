@@ -13,6 +13,7 @@ import {cva, VariantProps} from "class-variance-authority";
 import {cn} from "@/lib/utils";
 import Typography from "./ui/typography";
 import Link from "next/link";
+import {useCartStore} from "@/store/use-cart-store";
 
 const productVariants = cva("", {
   variants: {
@@ -31,6 +32,7 @@ interface ProductCardProps extends VariantProps<typeof productVariants> {
 }
 
 const ProductCard = ({product, variant}: ProductCardProps) => {
+  const {addToCart} = useCartStore();
   // discount price
   const fixedPrice = (
     product.price *
@@ -79,6 +81,7 @@ const ProductCard = ({product, variant}: ProductCardProps) => {
               <GrFavorite size={24} />
             </IconButton>
             <IconButton
+              onClick={() => addToCart({newProduct: product})}
               shape={"circle"}
               variant={"filled"}
               className="bg-gray-00 hover:bg-primary-500 text-gray-900 hover:text-gray-00"

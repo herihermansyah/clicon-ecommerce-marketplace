@@ -13,7 +13,7 @@ const ShopLayouts = ({children}: {children: React.ReactNode}) => {
   return (
     <WrapperMain className="flex gap-6 items-start my-10">
       {!isActive && (
-        <aside className="w-78 flex flex-col gap-10">
+        <aside className="hidden w-78 lg:flex flex-col gap-10">
           <CategoryFilter />
           <PriceRangeFilter />
           <PopularTag fontColor="text-gray-900 uppercase" />

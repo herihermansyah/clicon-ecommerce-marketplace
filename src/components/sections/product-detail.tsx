@@ -18,6 +18,7 @@ import {GoPlus} from "react-icons/go";
 import {GrFavorite} from "react-icons/gr";
 import {Card, CardContent, CardHeader} from "../ui/card";
 import {motion} from "motion/react";
+import {useCartStore} from "@/store/use-cart-store";
 
 interface ProductDetailProps {
   product: ProductTypes;
@@ -26,11 +27,11 @@ interface ProductDetailProps {
 const ProductDetail = ({product}: ProductDetailProps) => {
   return (
     <motion.section initial={{opacity: 0}} animate={{opacity: 1}}>
-      <div className="grid grid-cols-2 gap-14 pb-18">
+      <div className="flex flex-col gap-10 xl:grid xl:grid-cols-2 xl:gap-14 pb-18">
         <ProductImage product={product} />
         <div className="flex flex-col gap-6">
           <ProductHeader product={product} />
-          <ProductCTA />
+          <ProductCTA product={product} />
         </div>
       </div>
       <ProductInformation product={product} />
@@ -56,13 +57,18 @@ const ProductImage = ({product}: ProductDetailProps) => {
         />
       </div>
       <Swiper
-        slidesPerView={6}
+        slidesPerView={3}
+        breakpoints={{
+          640: {
+            slidesPerView: 6,
+            spaceBetween: 8,
+          },
+        }}
         navigation={{
           prevEl: ".prev-button",
           nextEl: ".next-button",
         }}
         modules={[Navigation]}
-        spaceBetween={8}
         className="w-full relative"
       >
         {product.images.map((item, index) => (
@@ -74,7 +80,7 @@ const ProductImage = ({product}: ProductDetailProps) => {
                 selectedThumbnails === item && "border-2 border-primary-500",
                 "active:scale-95",
                 "transition-all duration-100 ease-in-out",
-                "w-24 h-24",
+                "sm:w-24 sm:h-24",
               )}
             >
               <Image src={item} alt={product.title} width={100} height={100} />
@@ -182,11 +188,12 @@ const ProductHeader = ({product}: ProductDetailProps) => {
   );
 };
 
-const ProductCTA = () => {
+const ProductCTA = ({product}: ProductDetailProps) => {
+  const {addToCart} = useCartStore();
   return (
     <div className="flex flex-col gap-6 border-b border-gray-100 pb-6">
       {/* quantity and cta */}
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         {/* quantity */}
         <div className="flex items-center gap-9.5 px-5 py-4 border border-gray-100 rounded-md">
           <button className="cursor-pointer">
@@ -200,6 +207,7 @@ const ProductCTA = () => {
           </button>
         </div>
         <Button
+          onClick={() => addToCart({newProduct: product})}
           size={"large"}
           iconRight={<LuShoppingCart />}
           className="w-77.5 items-center justify-center"
@@ -255,7 +263,7 @@ const ProductInformation = ({product}: ProductDetailProps) => {
   ];
   return (
     <Card className="p-0">
-      <CardHeader className="flex flex-row items-center justify-center border-b border-gray-100">
+      <CardHeader className="flex flex-row flex-wrap items-center justify-center border-b border-gray-100">
         {selectHeader.map((item) => (
           <button
             key={item.name}

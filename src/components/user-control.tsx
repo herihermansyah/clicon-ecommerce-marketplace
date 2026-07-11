@@ -5,6 +5,8 @@ import {GrFavorite} from "react-icons/gr";
 import {PiUserBold} from "react-icons/pi";
 import {cn} from "@/lib/utils";
 import {motion} from "motion/react";
+import {useCartStore} from "@/store/use-cart-store";
+import {useRouter} from "next/navigation";
 
 interface UserType {
   className?: string;
@@ -25,19 +27,26 @@ const UserControlCompunded = ({className}: UserType) => {
 };
 
 const CartControl = ({className}: UserType) => {
+  const {cartItems} = useCartStore();
+  const router = useRouter();
   return (
-    <button className={cn("text-gray-00 cursor-pointer relative", className)}>
+    <button
+      onClick={() => router.push("/cart")}
+      className={cn("text-gray-00 cursor-pointer relative", className)}
+    >
       <LuShoppingCart size={25} />
-      <span
-        className={cn(
-          "absolute -top-2 -right-2 text-[12px] font-semibold text-secondary-700",
-          "bg-gray-00 rounded-full w-5 h-5",
-          "flex items-center justify-center",
-          "border-2 border-secondary-700",
-        )}
-      >
-        2
-      </span>
+      {cartItems.length > 0 && (
+        <span
+          className={cn(
+            "absolute -top-3 -right-3 text-[12px] font-semibold text-secondary-700",
+            "bg-gray-00 rounded-full w-6 h-6",
+            "flex items-center justify-center",
+            "border-2 border-secondary-700",
+          )}
+        >
+          {cartItems.length}
+        </span>
+      )}
     </button>
   );
 };
@@ -48,8 +57,8 @@ const FavoriteControl = ({className}: UserType) => {
       <GrFavorite size={25} />
       <span
         className={cn(
-          "absolute -top-2 -right-2 text-[12px] font-semibold text-secondary-700",
-          "bg-gray-00 rounded-full w-5 h-5",
+          "absolute -top-3 -right-3 text-[12px] font-semibold text-secondary-700",
+          "bg-gray-00 rounded-full w-6 h-6",
           "flex items-center justify-center",
           "border-2 border-secondary-700",
         )}
